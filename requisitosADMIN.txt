@@ -1,0 +1,253 @@
+⭐ 1. Visão Geral Administrativa (Dashboard do Admin)
+
+Cards principais:
+
+Total de usuários cadastrados
+
+Total de compras realizadas
+
+Total de pessoas que já passaram pela fila
+
+Estoque atual de café
+
+Média de consumo diária
+
+Total de usuários ativos hoje
+
+Alertas do sistema
+
+Gráficos:
+
+Consumo por período (dia / semana / mês)
+
+Horários de pico da fila
+
+Ranking dos usuários que mais compram
+
+Evolução da fila ao longo do dia
+
+⭐ 2. Gerenciamento da Fila
+
+Ferramentas e informações:
+
+➤ Status em tempo real da fila
+
+Lista completa dos usuários na fila
+
+Tempo médio de espera
+
+Próximo da fila
+
+Quem entrou por último
+
+➤ Ações administrativas
+
+Remover usuário da fila
+
+Mover usuário para o topo
+
+Reordenar manualmente
+
+Limpar fila
+
+Forçar conclusão de um atendimento
+
+➤ Configurações da fila
+
+Ativar/desativar entrada automática
+
+Limite por usuário (quantas vezes pode entrar)
+
+Cooldown de fila (ex.: só pode comprar 1x por hora)
+
+⭐ 3. Gerenciamento de Compras
+
+Visualização das compras:
+
+Lista completa das compras
+
+Data, horário, quantidade, valor (se houver)
+
+Usuário responsável
+
+Método (fila / manual)
+
+Ações:
+
+Editar compra
+
+Corrigir compra com erro
+
+Excluir compra (soft delete)
+
+Restaurar compra deletada
+
+Filtros:
+
+Por usuário
+
+Por data
+
+Por quantidade
+
+Por método
+
+Gráficos úteis:
+
+Compras por dia
+
+Compras por usuário
+
+Compras por horário
+
+⭐ 4. Gerenciamento de Usuários
+
+Lista de todos os usuários:
+
+Nome
+
+Email
+
+Data de registro
+
+Total de compras
+
+Quantas vezes entrou na fila
+
+Status (ativo / bloqueado / admin)
+
+Ações:
+
+Tornar admin
+
+Bloquear usuário
+
+Resetar senha
+
+Remover usuário
+
+Editar dados (nome, email, permissões)
+
+⭐ 5. Log do Sistema (logusuário + logadmin)
+
+Logs devem ser divididos em 3 partes:
+
+1️⃣ Log de Ações do Usuário
+
+Entrou na fila
+
+Comprou café
+
+Cancelou entrada
+
+Alterou dados
+
+Erros gerados
+
+2️⃣ Log de Ações do Admin
+
+Adicionou compras manualmente
+
+Removeu usuários
+
+Alterou fila
+
+Editou permissões
+
+Restaurou/excluiu compras
+
+Resetou senha de alguém
+
+3️⃣ Log Técnico (Sistema / API)
+
+Erros da API
+
+Falas de sincronização
+
+Server slowdown
+
+Falha de banco
+
+Alertas automáticos (ex.: estoque baixo)
+
+⭐ 6. Controle de Estoque (caso seu sistema use café físico)
+
+Informações:
+
+Quantidade atual
+
+Média de consumo
+
+Previsão de esgotamento
+
+Histórico de reposições
+
+Quantidade usada por dia
+
+Ações:
+
+Adicionar estoque
+
+Remover estoque
+
+Ajuste manual
+
+Notificações automáticas quando estiver baixo
+
+⭐ 7. Configurações Administrativas
+
+Configurações gerais do sistema:
+
+Regras da fila
+
+Regras de compra
+
+Limite de consumo por dia
+
+Tema visual (dark/light global)
+
+Nome/logo do sistema
+
+E-mails automáticos
+
+Permissões por tipo de usuário
+
+⭐ 8. Relatórios
+
+Exportáveis:
+
+Relatório de compras (PDF, CSV, Excel)
+
+Relatório da fila
+
+Relatório por usuário
+
+Relatório de logs
+
+Relatório de consumo mensal
+
+⭐ 9. Painel de Alertas
+
+Alertas automáticos que aparecem no topo:
+
+Estoque baixo
+
+Fila travada
+
+API fora do ar
+
+Usuário fazendo ações anômalas
+
+Muitos erros de login
+
+⭐ 10. Estatísticas Avançadas (Opcional, mas recomendadas)
+
+Previsão de consumo usando média móvel
+
+Identificação de usuários mais frequentes
+
+Horário com maior demanda
+
+Heatmap semanal
+
+Conversões de fila → compra

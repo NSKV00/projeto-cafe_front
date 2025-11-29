@@ -5,19 +5,88 @@
 }
 
 :root {
+  /* ▶ Primárias — Roxo Acinzentado */
+  --color-primary: #372B73;
+  --color-primary-light: #4A3D8D;
+  --color-primary-dark: #241A4E;
+
+  /* ▶ Secundárias — Marrons Café */
+  --color-secondary: #A67C52;
+  --color-secondary-light: #C89F77;
+  --color-secondary-dark: #7D5B3C;
+
+  /* ▶ Neutras / Base */
+  --color-offwhite: #F5F5F0;
+  --color-gray-soft: #E7E7E2;
+  --color-gray-medium: #C6C6C2;
+  --color-gray-dark: #242424;
+
+  /* ▶ Acentos Naturais — Verde */
+  --color-accent: #B7E4C7;
+  --color-accent-soft: #D3F2DE;
+  --color-accent-medium: #87C7A3;
+
+  /*SUGESTÕES DE USO (TOKENS) */
+  --background-main: var(--color-offwhite);
+  --background-surface: #FFFFFF;
+
+  --text-primary: var(--color-primary-dark);
+  --text-secondary: #4B4B4B;
+  --text-soft: #6A6A6A;
+
+  --border-color: var(--color-secondary-light);
+
+  --button-primary-bg: var(--color-primary);
+  --button-primary-text: var(--color-offwhite);
+
+  --button-secondary-bg: var(--color-accent-medium);
+  --button-secondary-text: #1A1A1A;
+
+  --highlight-color: var(--color-secondary); /* Marrom Claro */
+
+  --success-color: var(--color-accent);
+  --warning-color: var(--color-secondary-light);
+  --error-color: #D9534F;
+
+  
+  /* ===============================
+     🌗 Preparado para modo escuro
+     (Opcional — ativado por .dark-theme)
+     =============================== */
+
+  --dark-background: #1B1A1F;
+  --dark-surface: #24232A;
+
+  --dark-text-primary: #EFEFEF;
+  --dark-text-secondary: #CFCFCF;
+
+  --dark-border-color: #3A3940;
+
+
+  /* ===============================
+     🔤 TIPOGRAFIA & RENDERIZAÇÃO
+     =============================== */
+
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color-scheme: light;
+  color: var(--text-primary);
+  background-color: var(--background-main);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.dark-theme {
+  color-scheme: dark;
+  background-color: var(--dark-background);
+  color: var(--dark-text-primary);
+}
+
 
 #app {
   width: 100%;

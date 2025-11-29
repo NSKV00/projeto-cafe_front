@@ -1,0 +1,141 @@
+Dashboard - Mostrar informações consolidadas do sistema conforme necessidade, exemplos: 
+- Quanto tempo faz desde a última compra 
+- Qual o próximo da fila 
+- Resumo das últimas compras 
+- Relatório para ver a quantidade de compras por usuário com base nisto, pense. 
+quais outras informações complementares podem aparecer no dashboard para a visualização
+
+
+☕ Sugestões de Informações Complementares para o Dashboard
+✅ 1. Status atual da fila (em tempo real)
+
+Quantas pessoas estão na fila agora
+
+Tempo médio de espera
+
+Previsão de atendimento do próximo
+
+Quem entrou recentemente na fila
+
+Visual: Card numérico + indicador verde/amarelo/vermelho
+
+✅ 2. Consumo médio diário / semanal / mensal
+
+Quantas compras de café acontecem por dia
+
+Gráfico de linha mostrando aumento/diminuição
+
+Pico de horários (heatmap ou gráfico de barras)
+
+Visual: Gráfico de linhas / gráfico de calor
+
+✅ 3. Ranking dos maiores consumidores
+
+Top 5 usuários que mais compram café
+
+Gamificação: medalhas (ouro, prata, bronze)
+
+Variação: “+2 compras esta semana”
+
+Visual: Lista tipo leaderboard
+
+✅ 4. Histórico rápido da fila
+
+Quem comprou nas últimas 24 horas
+
+Quem desistiu da fila
+
+Horários de maior movimento
+
+Horários de menor movimento
+
+✅ 5. Controle de estoque do café (caso aplicável)
+
+Quantidade atual no estoque
+
+Média consumida por semana
+
+Previsão de esgotamento
+
+Alerta quando estiver baixo
+
+Visual: Gauge circular ou barra de progresso
+
+✅ 6. Comparativo entre usuários
+
+Quantas compras fizeram no mês
+
+Quantas vezes entraram na fila
+
+Velocidade com que compram após chegar a vez
+
+Visual: Tabela + gráfico de barras
+
+✅ 7. Indicadores de comportamento
+
+Quantas pessoas entram na fila por horário
+
+Quantos cancelam
+
+Frequência de uso por pessoa
+
+✅ 8. Meta de consumo (gamificação opcional)
+
+“Objetivo do mês: 250 cafés vendidos”
+
+“Estamos em 82% da meta”
+
+Recompensas / badges simbólicas
+
+✅ 9. Alertas do sistema
+
+Usuários com comportamento anômalo (ex.: 10 compras em 10 segundos)
+
+API offline
+
+Tempo médio de resposta alto
+
+✅ 10. Informações administrativas (opcional, se houver admin)
+
+Criar usuário
+
+Editar fila manualmente
+
+Relatórios exportáveis
+
+Insights automáticos
+
+🎯 Resumo visual (estrutura sugerida para seu Dashboard)
+Topo
+
+Logo
+
+Saudação "Bom dia, Nicolas!"
+
+Última sincronização da API
+
+Coluna esquerda (cards principais)
+
+Próximo da fila
+
+Última compra (com tempo decorrido)
+
+Total de compras hoje
+
+Pessoas na fila agora
+
+Centro (gráficos e listas)
+
+Gráfico de consumo diário
+
+Ranking dos mais ativos
+
+Histórico das últimas compras
+
+Direita
+
+Controle de estoque
+
+Alertas
+
+Metas de consumo
