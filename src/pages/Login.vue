@@ -72,43 +72,44 @@
   </div>
 </template>
 
-<script setup lang="ts">
-  import { ref } from 'vue';
-  import router from "../routes/Routes";
-  import { toast } from "vue3-toastify";
-  import logo from "../assets/LogoCoffeeQueue.png";
-  //import api from "../controller/api.controller.ts";
+<script setup>
+  import { ref } from "vue";
+  import api from '../controller/api.controller.ts';
+  import { useRouter } from "vue-router";
 
-  const email = ref("");
-  const senha = ref("");
-  const carregando = ref(false);
+  const router = useRouter();
+
+  const form = ref({
+    email: "",
+    password: "",
+  });
+
+  const loading = ref(false);
 
   const handleLogin = async () => {
-    if (!email.value || !senha.value) {
-      toast.error("Preencha todos os campos.");
-      return;
-    }
-
-    carregando.value = true;
-
     try {
-      const res = await api.post("/auth/login", {
-        email: email.value,
-        senha: senha.value,
+      loading.value = true;
+
+      const response = await api.post("/login", {
+        email: form.value.email,
+        password: form.value.password,
       });
 
-      if (res.status === 200) {
-        toast.success("Login realizado!");
-        setTimeout(() => router.push("/dashboard"), 800);
-      }
-    } catch (err: any) {
-      toast.error(err?.response?.data?.message || "Erro ao fazer login");
+      console.log("LOGIN SUCESSO:", response.data);
+      localStorage.setItem("token", response.data.token);
+
+      router.push("/dashboard");
+    } catch (error) {
+      console.error("ERRO AO LOGAR:", error);
+      alert("Credenciais inválidas!");
     } finally {
-      carregando.value = false;
+      loading.value = false;
     }
   };
 
-  const goToRegister = () => router.push("/cadastro");
+  const goToRegister = () => {
+    router.push("/cadastro");
+  };
 </script>
 
 <style scoped>

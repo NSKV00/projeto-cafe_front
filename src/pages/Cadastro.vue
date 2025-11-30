@@ -114,7 +114,7 @@
   import { ref } from "vue";
   import router from "../routes/Routes";
   import logo from '../assets/LogoCoffeeQueue.png';
-  //import api from "../controller/api.controller.ts";
+  import api from "../controller/api.controller.ts";
   import { toast } from "vue3-toastify";
 
   const nome = ref("");
@@ -144,7 +144,7 @@
     const [, dominio] = email.value.split("@");
 
     const sugestao = dominiosComuns.find(
-      d => distanciaLevenshtein(dominio, d) <= 2
+      d => distanciaLevenshtein(dominio || "", d) <= 2
     );
 
     if (sugestao && dominio !== sugestao) {
