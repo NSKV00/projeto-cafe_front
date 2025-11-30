@@ -1,82 +1,66 @@
 <template>
-  <div class="login-bg d-flex align-center justify-center">
+  <div class="login-page">
     <v-card
       elevation="6"
-      class="pa-8 rounded-xl fade-in"
+      class="pa-4 rounded-xl login-card animate-fade-in"
       width="420"
-      style="background-color: var(--background-surface); color: var(--text-primary); backdrop-filter: blur(10px);"
     >
-      <!-- Logo -->
-      <div class="text-center mb-6 slide-down">
-        <img src="" alt="Coffee Queue" width="120" />
+      <div class="d-flex justify-center mb-2 animate-slide-down">
+        <img :src="logo" class="logo-img" />
       </div>
 
-      <h2 class="text-h5 font-weight-bold mb-1 text-center" style="color: var(--color-primary);">
+      <h2 class="text-h6 font-weight-bold mb-1 animate-fade-in-delayed title">
         Bem-vindo de volta
       </h2>
 
-      <p class="mb-6 text-body-2 text-center" style="color: var(--text-secondary);">
+      <p class="mb-3 text-body-2 animate-fade-in-delayed subtitle">
         Acesse sua conta para continuar
       </p>
 
-      <v-form @submit.prevent="handleLogin" class="space-y slide-up">
-
-        <!-- Email -->
+      <v-form @submit.prevent="handleLogin" class="form-compact animate-fade-in-delayed">
         <v-text-field
-          v-model="formData.email"
+          class="text-field"
+          v-model="email"
           label="Email"
           prepend-inner-icon="mdi-email"
           variant="outlined"
-          density="comfortable"
-          color="var(--color-primary)"
+          density="compact"
           type="email"
           clearable
           required
         />
-
-        <!-- Senha -->
         <v-text-field
-          v-model="formData.password"
+          class="text-field"
+          v-model="senha"
           label="Senha"
           prepend-inner-icon="mdi-lock"
           variant="outlined"
-          density="comfortable"
-          color="var(--color-primary)"
+          density="compact"
           type="password"
           clearable
           required
         />
 
-        <!-- Entrar -->
         <v-btn
           block
-          class="py-3 mt-2 pulse"
-          :style="{
-            backgroundColor: 'var(--button-primary-bg)',
-            color: 'var(--button-primary-text)'
-          }"
+          class="py-2 mt-1 btn-primary animate-button-pulse"
           type="submit"
+          :loading="carregando"
         >
           Entrar
           <v-icon end>mdi-login</v-icon>
         </v-btn>
 
-        <!-- Divider -->
-        <div class="d-flex align-center my-4">
+        <div class="d-flex align-center my-3">
           <v-divider class="flex-grow-1"></v-divider>
-          <span class="mx-3" style="color: var(--text-secondary);">ou</span>
+          <span class="mx-3 subtitle">ou</span>
           <v-divider class="flex-grow-1"></v-divider>
         </div>
 
-        <!-- Ir para Cadastro -->
         <v-btn
           block
-          class="py-3"
+          class="py-2 btn-outline animate-fade-in-delayed"
           variant="outlined"
-          :style="{
-            borderColor: 'var(--color-primary)',
-            color: 'var(--color-primary)'
-          }"
           @click="goToRegister"
         >
           <v-icon start>mdi-account-plus</v-icon>
@@ -88,73 +72,146 @@
   </div>
 </template>
 
-<script setup>
-import { ref } from 'vue';
+<script setup lang="ts">
+  import { ref } from 'vue';
+  import router from "../routes/Routes";
+  import { toast } from "vue3-toastify";
+  import logo from "../assets/LogoCoffeeQueue.png";
+  //import api from "../controller/api.controller.ts";
 
-const formData = ref({
-  email: '',
-  password: ''
-});
+  const email = ref("");
+  const senha = ref("");
+  const carregando = ref(false);
 
-const handleLogin = () => {
-  console.log('Login data:', formData.value);
-};
+  const handleLogin = async () => {
+    if (!email.value || !senha.value) {
+      toast.error("Preencha todos os campos.");
+      return;
+    }
 
-const goToRegister = () => {
-  console.log('Go to Register');
-  // Altere o componente da página principal aqui
-};
+    carregando.value = true;
+
+    try {
+      const res = await api.post("/auth/login", {
+        email: email.value,
+        senha: senha.value,
+      });
+
+      if (res.status === 200) {
+        toast.success("Login realizado!");
+        setTimeout(() => router.push("/dashboard"), 800);
+      }
+    } catch (err: any) {
+      toast.error(err?.response?.data?.message || "Erro ao fazer login");
+    } finally {
+      carregando.value = false;
+    }
+  };
+
+  const goToRegister = () => router.push("/cadastro");
 </script>
 
 <style scoped>
-.login-bg {
-  min-height: 100vh;
-  background-image: url(../assets/GrãosdeCaféemDetalhe.png);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  padding: 24px;
-  overflow: hidden;
-}
+  .login-page {
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background-image: url(../assets/GrãosdeCaféemDetalhe.png);
+    background-size: cover;
+    background-position: center;
+  }
+  .login-card {
+    background: rgba(82, 82, 82, 0.123);
+    backdrop-filter: blur(6px);
+    color: var(--text-primary);
+  }
 
-.space-y > * + * {
-  margin-top: 18px;
-}
+  .logo-img {
+    width: 100px;
+    opacity: 0.95;
+  }
+  .form-compact > * + * {
+    margin-top: 10px !important;
+  }
 
-/* ANIMAÇÕES */
-.fade-in {
-  animation: fadeIn 0.8s ease forwards;
-}
+  .title {
+    color: var(--color-gray-soft);
+  }
+  .subtitle {
+    color: var(--color-gray-soft);
+  }
+  .flex-grow-1 {
+    border-color: var(--color-gray-soft) !important;
+  }
+  .text-field {
+    color: var(--color-gray-soft) !important;
+  }
 
-.slide-down {
-  animation: slideDown 0.7s ease forwards;
-}
+  .btn-primary {
+    background-color: var(--button-primary-bg);
+    color: var(--button-primary-text);
+  }
+  .btn-outline {
+    border-color: var(--color-gray-medium) !important;
+    color: var(--color-gray-medium) !important;
+  }
 
-.slide-up {
-  animation: slideUp 0.7s ease forwards;
-}
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease forwards;
+  }
+  .animate-fade-in-delayed {
+    opacity: 0;
+    animation: fadeIn 0.8s ease forwards;
+    animation-delay: 0.2s;
+  }
+  .animate-slide-down {
+    transform: translateY(-10px);
+    opacity: 0;
+    animation: slideDown 0.6s ease forwards;
+  }
 
-.pulse:hover {
-  animation: pulse 0.6s infinite alternate ease-in-out;
-}
+  @media (max-width: 450px) {
+    .login-card {
+      width: 92% !important;
+      padding: 18px !important;
+    }
+    .form-compact > * + * { margin-top: 8px !important; }
+    .logo-img { width: 80px !important; }
+    .v-input { font-size: 0.88rem !important; }
+    .v-field__input { padding: 6px 10px !important; }
+  }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
+  @media (max-width: 360px) {
+    .login-card {
+      width: 94% !important;
+      padding: 14px !important;
+    }
+    .logo-img { width: 70px !important; }
+    .v-field__input { padding: 5px 8px !important; }
+    .title { font-size: 1.05rem !important; }
+    .subtitle { font-size: 0.82rem !important; }
+  }
 
-@keyframes slideDown {
-  from { transform: translateY(-12px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
+  @media (max-width: 319px) {
+    .login-card {
+      width: 96% !important;
+      padding: 10px !important;
+    }
+    .logo-img { width: 60px !important; }
+    .v-field__input { padding: 4px 7px !important; }
+    .v-input { font-size: 0.78rem !important; }
+    .btn-primary,
+    .btn-outline {
+      padding: 6px !important;
+      font-size: 0.75rem !important;
+    }
+  }
 
-@keyframes slideUp {
-  from { transform: translateY(12px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-
-@keyframes pulse {
-  from { transform: scale(1); }
-  to { transform: scale(1.04); }
-}
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.03); } 100% { transform: scale(1); } }
 </style>

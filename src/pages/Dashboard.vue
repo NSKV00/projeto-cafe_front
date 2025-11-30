@@ -1,4 +1,5 @@
 <template>
+    <v-main></v-main>
     <div>
         <h1>Dashboard</h1>
         <p>Welcome to the dashboard page!</p>
@@ -8,6 +9,7 @@
 <script setup lang="ts">
 
 </script>
+
 
 <style scoped>
     h1 {
