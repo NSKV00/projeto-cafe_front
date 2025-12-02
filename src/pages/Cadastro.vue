@@ -44,11 +44,15 @@
         <v-text-field
           class="text-field"
           v-model="senha"
+          @input="validarSenha"
           label="Senha"
+          :error-messages="erroSenha"
           prepend-inner-icon="mdi-lock"
+          :append-inner-icon="showSenha ? 'mdi-eye-off' : 'mdi-eye'"
+          @click:append-inner="toggleShowSenha"
           variant="outlined"
           density="compact"
-          type="password"
+          :type="showSenha ? 'text' : 'password'"
           clearable
           required
         />
@@ -122,10 +126,16 @@
   const senha = ref("");
   const carregando = ref(false);
 
+  const showSenha = ref(false)
+  function toggleShowSenha() {
+    showSenha.value = !showSenha.value
+  }
+
   const aceitaTermos = ref(false);
   const mostrarTermos = ref(false);
 
   const erroEmail = ref("");
+  const erroSenha = ref("");
 
   const emailRegex =
     /^[a-zA-Z0-9._%+-]{1,64}@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$/;
@@ -149,6 +159,37 @@
 
     if (sugestao && dominio !== sugestao) {
       erroEmail.value = `Você quis dizer ${email.value.split("@")[0]}@${sugestao}?`;
+    }
+  };
+
+  const validarSenha = () => {
+    erroSenha.value = "";
+
+    if (!senha.value) return;
+
+    if (senha.value.length < 8) {
+      erroSenha.value = "Senha deve ter no mínimo 8 caracteres";
+      return;
+    }
+
+    if (senha.value.match(/[A-Z]/) === null) {
+      erroSenha.value = "Senha deve conter uma letra maiúscula";
+      return;
+    }
+
+    if (senha.value.match(/[a-z]/) === null) {
+      erroSenha.value = "Senha deve conter uma letra minúscula";
+      return;
+    }
+
+    if (senha.value.match(/[0-9]/) === null) {
+      erroSenha.value = "Senha deve conter um número";
+      return;
+    }
+
+    if (senha.value.match(/[!@#$%^&*(),.?":{}|<>]/) === null) {
+      erroSenha.value = "Senha deve conter um caracter especial";
+      return;
     }
   };
 
@@ -194,6 +235,11 @@
       return false;
     }
 
+    if (erroSenha.value.includes("Senha")) {
+      toast.error(erroSenha.value);
+      return false;
+    }
+
     if (!aceitaTermos.value) {
       toast.error("Você deve aceitar os Termos e Condições.");
       return false;
@@ -208,7 +254,7 @@
     carregando.value = true;
 
     try {
-      const res = await api.post("/usuarios", {
+      const res = await api.post("/usuario/criar", {
         nome: nome.value,
         email: email.value,
         senha: senha.value,

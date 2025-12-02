@@ -34,9 +34,11 @@
           v-model="senha"
           label="Senha"
           prepend-inner-icon="mdi-lock"
+          :append-inner-icon="showSenha ? 'mdi-eye-off' : 'mdi-eye'"
+          @click:append-inner="toggleShowSenha"
           variant="outlined"
           density="compact"
-          type="password"
+          :type="showSenha ? 'text' : 'password'"
           clearable
           required
         />
@@ -72,44 +74,53 @@
   </div>
 </template>
 
-<script setup>
-  import { ref } from "vue";
-  import api from '../controller/api.controller.ts';
-  import { useRouter } from "vue-router";
+<script setup lang="ts">
+import { ref } from 'vue'
+import api from '../controller/api.controller'
+import { useRouter } from 'vue-router'
+import logo from '../assets/LogoCoffeeQueue.png'
 
-  const router = useRouter();
+const router = useRouter()
 
-  const form = ref({
-    email: "",
-    password: "",
-  });
+const email = ref('')
+const senha = ref('')
+const carregando = ref(false)
 
-  const loading = ref(false);
+// controle de visualização da senha
+const showSenha = ref(false)
+function toggleShowSenha() {
+  showSenha.value = !showSenha.value
+}
 
-  const handleLogin = async () => {
-    try {
-      loading.value = true;
+async function handleLogin() {
+  try {
+    carregando.value = true
 
-      const response = await api.post("/login", {
-        email: form.value.email,
-        password: form.value.password,
-      });
+    const response = await api.post('/login', {
+      email: email.value,
+      // enviar ambas chaves para compatibilidade com backends diferentes
+      password: senha.value,
+      senha: senha.value,
+    })
 
-      console.log("LOGIN SUCESSO:", response.data);
-      localStorage.setItem("token", response.data.token);
+    console.log('LOGIN SUCESSO:', response.data)
+    localStorage.setItem('token', response.data.token)
 
-      router.push("/dashboard");
-    } catch (error) {
-      console.error("ERRO AO LOGAR:", error);
-      alert("Credenciais inválidas!");
-    } finally {
-      loading.value = false;
-    }
-  };
+    // rota principal definida em Routes.ts é '/'
+    router.push('/')
+  } catch (error: any) {
+    console.error('ERRO AO LOGAR:', error)
+    console.error('response status:', error?.response?.status)
+    console.error('response data:', error?.response?.data)
+    alert(`Erro ao logar: ${error?.response?.data?.message || error?.message || 'Verifique o servidor'}`)
+  } finally {
+    carregando.value = false
+  }
+}
 
-  const goToRegister = () => {
-    router.push("/cadastro");
-  };
+function goToRegister() {
+  router.push('/cadastro')
+}
 </script>
 
 <style scoped>
