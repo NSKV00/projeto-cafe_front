@@ -10,7 +10,7 @@
         <v-avatar size="48" color="white" class="mr-3" style="opacity: 0.25">
           <span class="text-h5">1</span>
         </v-avatar>
-        <p class="text-h4 text-white">{{ firstUser?.usuario?.nome }}</p>
+        <p class="text-h4 text-white">{{ fila.usuario.nome }}</p>
       </div>
     </div>
 
@@ -33,9 +33,10 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import filaService from '../services/filaService'
+import api from '../controller/api.controller'
 
 const queue = ref<any[]>([])
-const firstUser = ref<any>(null)
+const fila = ref({})
 
 const featuredStyle = `
   background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
@@ -49,10 +50,13 @@ const smallCardStyle = `
 `
 
 onMounted(async () => {
-  const all = await filaService.listar()
-  queue.value = all.data.data
+  try {
+    const response = await api.get('/fila')
+    fila.value = response.data.data[0]
 
-  const r = await filaService.proximo()
-  firstUser.value = r.data.data
+    console.log('Fila carregada:', fila.value.data.usuario.nome)
+  } catch (error) {
+    console.error('Erro ao carregar a fila:', error)
+  }
 })
 </script>

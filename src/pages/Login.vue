@@ -86,7 +86,6 @@ const email = ref('')
 const senha = ref('')
 const carregando = ref(false)
 
-// controle de visualização da senha
 const showSenha = ref(false)
 function toggleShowSenha() {
   showSenha.value = !showSenha.value
@@ -98,15 +97,13 @@ async function handleLogin() {
 
     const response = await api.post('/login', {
       email: email.value,
-      // enviar ambas chaves para compatibilidade com backends diferentes
-      password: senha.value,
       senha: senha.value,
     })
 
-    console.log('LOGIN SUCESSO:', response.data)
-    localStorage.setItem('token', response.data.token)
+    console.log('LOGIN SUCESSO:', response.data.data)
+    localStorage.setItem('token', response.data.data.token)
+    console.log(response.data.token)
 
-    // rota principal definida em Routes.ts é '/'
     router.push('/')
   } catch (error: any) {
     console.error('ERRO AO LOGAR:', error)
