@@ -15,53 +15,60 @@ export default createVuetify({
       customTheme: {
         dark: false,
         colors: {
-          primary: 'var(--color-primary)',
-          primaryLight: 'var(--color-primary-light)',
-          primaryDark: 'var(--color-primary-dark)',
+          primary: '#372B73',
+          primaryLight: '#4A3D8D',
+          primaryDark: '#241A4E',
 
-          secondary: 'var(--color-secondary)',
-          secondaryLight: 'var(--color-secondary-light)',
-          secondaryDark: 'var(--color-secondary-dark)',
+          secondary: '#A67C52',
+          secondaryLight: '#C89F77',
+          secondaryDark: '#7D5B3C',
 
-          background: 'var(--background-main)',
-          surface: 'var(--background-surface)',
+          background: '#F5F5F0',
+          surface: '#FFFFFF',
 
-          textPrimary: 'var(--text-primary)',
-          textSecondary: 'var(--text-secondary)',
-          textSoft: 'var(--text-soft)',
+          textPrimary: '#241A4E',
+          textSecondary: '#4B4B4B',
+          textSoft: '#6A6A6A',
 
-          border: 'var(--border-color)',
+          border: '#C89F77',
 
-          accent: 'var(--color-accent)',
-          accentSoft: 'var(--color-accent-soft)',
-          accentMedium: 'var(--color-accent-medium)',
+          accent: '#B7E4C7',
+          accentSoft: '#D3F2DE',
+          accentMedium: '#87C7A3',
 
-          success: 'var(--success-color)',
-          warning: 'var(--warning-color)',
-          error: 'var(--error-color)',
+          success: '#B7E4C7',
+          warning: '#C89F77',
+          error: '#D9534F',
         },
       },
 
       customThemeDark: {
         dark: true,
         colors: {
-          primary: 'var(--color-primary)',
-          secondary: 'var(--color-secondary)',
+          primary: '#372B73',
+          primaryLight: '#4A3D8D',
+          primaryDark: '#241A4E',
 
-          background: 'var(--dark-background)',
-          surface: 'var(--dark-surface)',
+          secondary: '#A67C52',
+          secondaryLight: '#C89F77',
+          secondaryDark: '#7D5B3C',
 
-          textPrimary: 'var(--dark-text-primary)',
-          textSecondary: 'var(--dark-text-secondary)',
+          background: '#1B1A1F',
+          surface: '#24232A',
 
-          border: 'var(--dark-border-color)',
+          textPrimary: '#EFEFEF',
+          textSecondary: '#CFCFCF',
+          textSoft: '#A9A9A9',
 
-          accent: 'var(--color-accent-medium)',
-          accentSoft: 'var(--color-accent-soft)',
+          border: '#3A3940',
 
-          success: 'var(--success-color)',
-          warning: 'var(--warning-color)',
-          error: 'var(--error-color)',
+          accent: '#B7E4C7',
+          accentSoft: '#D3F2DE',
+          accentMedium: '#87C7A3',
+
+          success: '#B7E4C7',
+          warning: '#C89F77',
+          error: '#D9534F',
         },
       },
     },

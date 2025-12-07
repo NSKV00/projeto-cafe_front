@@ -3,18 +3,43 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Login from '../pages/Login.vue'
 import Cadastro from '../pages/Cadastro.vue'
 import Dashboard from '../pages/Dashboard.vue'
-import Dashboard1 from '../pages/Dashboard1.vue'
+import AdminDashboard from "../pages/AdminDashboard.vue"
+import Perfil from "../pages/Perfil.vue"
 
 const routes = [
-  { path: '/', component: Dashboard },
+  { path: '/', component: Dashboard, meta: { requiresAuth: false } },
   { path: '/login', component: Login },
   { path: '/cadastro', component: Cadastro },
-  { path: '/dashboard1', component: Dashboard1 }
+  { path: '/admin', component: AdminDashboard, meta: { requiresAuth: true } },
+  { path: '/perfil', component: Perfil, meta: { requiresAuth: true } },
 ]
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
+})
+
+router.beforeEach((to, _from, next) => {
+  const token = localStorage.getItem('auth_token')
+  const requiresAuth = to.meta.requiresAuth
+  const isAdmin = localStorage.getItem('is_admin') === '1'
+
+  // Protected routes require authentication
+  if (requiresAuth && !token) {
+    return next('/login')
+  }
+
+  // Admin route protection: only allow users with admin flag
+  if (to.path === '/admin' && !isAdmin) {
+    return next('/')
+  }
+
+  // Prevent authenticated users from visiting auth pages
+  if ((to.path === '/login' || to.path === '/cadastro') && token) {
+    return next('/')
+  }
+
+  return next()
 })
 
 export default router

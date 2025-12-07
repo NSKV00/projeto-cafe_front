@@ -42,17 +42,12 @@
   --button-secondary-bg: var(--color-accent-medium);
   --button-secondary-text: #1A1A1A;
 
-  --highlight-color: var(--color-secondary); /* Marrom Claro */
+  --highlight-color: var(--color-secondary);
 
   --success-color: var(--color-accent);
   --warning-color: var(--color-secondary-light);
   --error-color: #D9534F;
 
-  
-  /* ===============================
-     🌗 Preparado para modo escuro
-     (Opcional — ativado por .dark-theme)
-     =============================== */
 
   --dark-background: #1B1A1F;
   --dark-surface: #24232A;
@@ -61,12 +56,46 @@
   --dark-text-secondary: #CFCFCF;
 
   --dark-border-color: #3A3940;
+}
+.dark-theme {
+  color-scheme: dark;
+  background-color: var(--dark-background);
+  color: var(--dark-text-primary);
 
+  --background-main: var(--dark-background);
+  --background-surface: var(--dark-surface);
 
-  /* ===============================
-     🔤 TIPOGRAFIA & RENDERIZAÇÃO
-     =============================== */
+  --text-primary: var(--dark-text-primary);
+  --text-secondary: var(--dark-text-secondary);
+  --text-soft: #9a9a9a;
 
+  --border-color: var(--dark-border-color);
+
+  --button-primary-bg: #3b335e;
+  --button-primary-text: #ffffff;
+
+  --success-color: #8ccf9e;
+  --warning-color: #caa070;
+  --error-color: #e8756b;
+
+  --header-height: 92px;
+}
+
+.header-logo {
+  height: 52px;
+  width: auto;
+  object-fit: contain;
+}
+@media (min-width: 1200px) {
+  .dashboard-header {
+    height: 104px !important;
+  }
+  .header-logo {
+    height: 64px;
+  }
+}
+
+html {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -86,7 +115,6 @@
   background-color: var(--dark-background);
   color: var(--dark-text-primary);
 }
-
 
 #app {
   width: 100%;
@@ -131,6 +159,67 @@ button:focus-visible {
 
 .card {
   padding: 2em;
+}
+
+/* Responsive small cards used in Dashboard queue preview */
+.queue-card {
+  background: rgba(255,255,255,0.08);
+  border-radius: 12px;
+  width: calc(50% - 8px);
+  min-width: 100px;
+  box-sizing: border-box;
+}
+
+@media (min-width: 1024px) {
+  .queue-card {
+    width: calc(25% - 8px);
+  }
+}
+
+/* Reduce list height slightly on small screens to fit cards */
+.recent-list {
+  max-height: 36vh;
+}
+
+/* Ensure buttons with title attributes remain tappable on mobile (fallback tooltip) */
+button[title], .v-btn[title] {
+  touch-action: manipulation;
+}
+
+/* longpress tooltip style */
+.longpress-tooltip {
+  position: absolute;
+  z-index: 9999;
+  background: rgba(0,0,0,0.8);
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  pointer-events: none;
+  max-width: 220px;
+  text-align: center;
+}
+
+/* Small screen adjustments */
+@media (max-width: 480px) {
+  .dashboard-app .dashboard-header {
+    height: 72px !important;
+  }
+  .header-logo {
+    height: 44px;
+  }
+  .dashboard-main .pa-6 {
+    padding: 12px !important;
+  }
+  .card, .pa-4, .pa-5, .pa-3 {
+    padding: 12px !important;
+  }
+  .v-avatar {
+    transform: scale(0.85);
+  }
+  .text-h5 { font-size: 1.05rem; }
+  .text-h3 { font-size: 1.4rem; }
+  .recent-list { max-height: 28vh; }
 }
 
 @media (prefers-color-scheme: light) {
