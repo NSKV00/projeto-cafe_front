@@ -6,7 +6,7 @@
       width="420"
     >
       <div class="d-flex justify-center mb-2 animate-slide-down">
-        <img :src="logo" class="logo-img" />
+        <img :src="logo" class="logo-img" alt="Logo CoffeeQueue" />
       </div>
 
       <h2 class="text-h6 font-weight-bold mb-1 animate-fade-in-delayed title">
@@ -29,6 +29,7 @@
           clearable
           required
         />
+
         <v-text-field
           class="text-field"
           v-model="senha"
@@ -68,56 +69,66 @@
           <v-icon start>mdi-account-plus</v-icon>
           Criar Conta
         </v-btn>
-
       </v-form>
     </v-card>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import api from '../controller/api.controller'
-import { useRouter } from 'vue-router'
-import logo from '../assets/LogoCoffeeQueue.png'
+  import { ref } from 'vue'
+  import { useRouter } from 'vue-router'
+  import { toast } from 'vue3-toastify'
+  import authService from '../services/authService'
+  import logo from '../assets/LogoCoffeeQueue.png'
 
-const router = useRouter()
+  const router = useRouter()
 
-const email = ref('')
-const senha = ref('')
-const carregando = ref(false)
+  const email = ref('')
+  const senha = ref('')
+  const carregando = ref(false)
+  const showSenha = ref(false)
 
-const showSenha = ref(false)
-function toggleShowSenha() {
-  showSenha.value = !showSenha.value
-}
+  function toggleShowSenha() {
+    showSenha.value = !showSenha.value
+  }
 
-async function handleLogin() {
-  try {
+  async function handleLogin() {
+    if (!email.value || !senha.value) {
+      toast.error('Preencha todos os campos')
+      return
+    }
+
     carregando.value = true
 
-    const response = await api.post('/login', {
-      email: email.value,
-      senha: senha.value,
-    })
+      try {
+      const response = await authService.login(email.value, senha.value)
 
-    console.log('LOGIN SUCESSO:', response.data.data)
-    localStorage.setItem('token', response.data.data.token)
-    console.log(response.data.token)
-
-    router.push('/')
-  } catch (error: any) {
-    console.error('ERRO AO LOGAR:', error)
-    console.error('response status:', error?.response?.status)
-    console.error('response data:', error?.response?.data)
-    alert(`Erro ao logar: ${error?.response?.data?.message || error?.message || 'Verifique o servidor'}`)
-  } finally {
-    carregando.value = false
+      if (response.data?.success && response.data?.data?.token) {
+        localStorage.setItem('auth_token', response.data.data.token)
+        const respData: any = response.data.data ?? response.data
+        const usuario = respData?.usuario ?? respData?.user ?? null
+        try {
+          if (usuario && usuario.acesso) {
+            localStorage.setItem('is_admin', usuario.acesso === 'admin' ? '1' : '0')
+          }
+        } catch {}
+        toast.success('Login realizado com sucesso!')
+        setTimeout(() => router.push('/'), 1000)
+      } else {
+        toast.error(response.data?.message || 'Erro ao fazer login')
+      }
+    } catch (error: any) {
+      const errorMsg = error?.response?.data?.message || 'Erro ao fazer login'
+      toast.error(errorMsg)
+      console.error('Login error:', error)
+    } finally {
+      carregando.value = false
+    }
   }
-}
 
-function goToRegister() {
-  router.push('/cadastro')
-}
+  function goToRegister(): void {
+    router.push('/cadastro')
+  }
 </script>
 
 <style scoped>
@@ -133,6 +144,7 @@ function goToRegister() {
     background-size: cover;
     background-position: center;
   }
+
   .login-card {
     background: rgba(82, 82, 82, 0.123);
     backdrop-filter: blur(6px);
@@ -143,19 +155,23 @@ function goToRegister() {
     width: 100px;
     opacity: 0.95;
   }
+
   .form-compact > * + * {
-    margin-top: 10px !important;
+    margin-top: 8px !important;
   }
 
   .title {
     color: var(--color-gray-soft);
   }
+
   .subtitle {
     color: var(--color-gray-soft);
   }
+
   .flex-grow-1 {
     border-color: var(--color-gray-soft) !important;
   }
+
   .text-field {
     color: var(--color-gray-soft) !important;
   }
@@ -164,6 +180,7 @@ function goToRegister() {
     background-color: var(--button-primary-bg);
     color: var(--button-primary-text);
   }
+
   .btn-outline {
     border-color: var(--color-gray-medium) !important;
     color: var(--color-gray-medium) !important;
@@ -172,15 +189,21 @@ function goToRegister() {
   .animate-fade-in {
     animation: fadeIn 0.6s ease forwards;
   }
+
   .animate-fade-in-delayed {
     opacity: 0;
     animation: fadeIn 0.8s ease forwards;
     animation-delay: 0.2s;
   }
+
   .animate-slide-down {
     transform: translateY(-10px);
     opacity: 0;
     animation: slideDown 0.6s ease forwards;
+  }
+
+  .animate-button-pulse {
+    animation: pulse 0.6s ease;
   }
 
   @media (max-width: 450px) {
@@ -188,10 +211,22 @@ function goToRegister() {
       width: 92% !important;
       padding: 18px !important;
     }
-    .form-compact > * + * { margin-top: 8px !important; }
-    .logo-img { width: 80px !important; }
-    .v-input { font-size: 0.88rem !important; }
-    .v-field__input { padding: 6px 10px !important; }
+
+    .form-compact > * + * {
+      margin-top: 8px !important;
+    }
+
+    .logo-img {
+      width: 80px !important;
+    }
+
+    .v-input {
+      font-size: 0.88rem !important;
+    }
+
+    .v-field__input {
+      padding: 6px 10px !important;
+    }
   }
 
   @media (max-width: 360px) {
@@ -199,10 +234,22 @@ function goToRegister() {
       width: 94% !important;
       padding: 14px !important;
     }
-    .logo-img { width: 70px !important; }
-    .v-field__input { padding: 5px 8px !important; }
-    .title { font-size: 1.05rem !important; }
-    .subtitle { font-size: 0.82rem !important; }
+
+    .logo-img {
+      width: 70px !important;
+    }
+
+    .v-field__input {
+      padding: 5px 8px !important;
+    }
+
+    .title {
+      font-size: 1.05rem !important;
+    }
+
+    .subtitle {
+      font-size: 0.82rem !important;
+    }
   }
 
   @media (max-width: 319px) {
@@ -210,9 +257,19 @@ function goToRegister() {
       width: 96% !important;
       padding: 10px !important;
     }
-    .logo-img { width: 60px !important; }
-    .v-field__input { padding: 4px 7px !important; }
-    .v-input { font-size: 0.78rem !important; }
+
+    .logo-img {
+      width: 60px !important;
+    }
+
+    .v-field__input {
+      padding: 4px 7px !important;
+    }
+
+    .v-input {
+      font-size: 0.78rem !important;
+    }
+
     .btn-primary,
     .btn-outline {
       padding: 6px !important;
@@ -220,7 +277,39 @@ function goToRegister() {
     }
   }
 
-  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-  @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-  @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.03); } 100% { transform: scale(1); } }
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+
+    50% {
+      transform: scale(1.03);
+    }
+
+    100% {
+      transform: scale(1);
+    }
+  }
 </style>
