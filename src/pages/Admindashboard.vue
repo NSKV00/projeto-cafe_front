@@ -50,7 +50,7 @@
             </v-row>
 
             <v-row dense>
-            <v-col cols="12" lg="6">
+            <v-col cols="12" lg="12">
                 <v-card class="pa-4 rounded-xl" :style="cardStyle">
                 <div class="d-flex align-center mb-3">
                     <v-icon size="20">mdi-account-multiple</v-icon>
@@ -111,7 +111,7 @@
                 </v-card>
             </v-col>
 
-            <v-col cols="12" lg="6">
+            <v-col cols="12" lg="12">
                 <v-card class="pa-4 rounded-xl" :style="cardStyle">
                 <div class="d-flex align-center mb-3">
                     <v-icon size="20">mdi-format-list-bulleted</v-icon>
@@ -141,7 +141,7 @@
             </v-row>
 
             <v-row dense class="mt-4">
-            <v-col cols="12" lg="6">
+            <v-col cols="12" lg="12">
                 <v-card class="pa-4 rounded-xl" :style="cardStyle">
                 <div class="d-flex align-center mb-3">
                     <v-icon size="20">mdi-shopping</v-icon>
@@ -202,7 +202,7 @@
             </v-row>
 
             <v-row dense class="mt-4">
-            <v-col cols="12" lg="6">
+            <v-col cols="12" lg="12">
                 <v-card class="pa-4 rounded-xl" :style="cardStyle">
                 <div class="d-flex align-center mb-3">
                     <v-icon size="20">mdi-file-document-outline</v-icon>
@@ -252,7 +252,7 @@
                 </v-card>
             </v-col>
 
-            <v-col cols="12" lg="6">
+            <v-col cols="12" lg="12">
                 <v-card class="pa-4 rounded-xl" :style="cardStyle">
                 <div class="d-flex align-center mb-3">
                     <v-icon size="20">mdi-account-circle</v-icon>
@@ -1040,5 +1040,47 @@
 
     .v-chip { font-size: 0.85rem; padding: 4px 6px; }
     .v-icon { font-size: 18px; }
+  }
+
+  @media (min-width: 800px) {
+    .dashboard-header .v-container,
+    .dashboard-main .v-container {
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+
+    .dashboard-main .v-row { justify-content: center; gap: 20px; }
+
+    .v-card { margin-left: auto; margin-right: auto; max-width: 100%; }
+
+    .reports-summary .v-row { justify-content: space-around; }
+  }
+
+  .v-row > .v-col, .v-col, .v-card, .v-simple-table, .table-responsive, .v-list-item-content {
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  @media (min-width: 1020px) {
+    .dashboard-main .v-container { padding-left: 24px; padding-right: 24px; }
+
+    .v-row { gap: 20px; }
+
+    .v-row > .v-col { flex: 1 1 0%; min-width: 0; }
+
+     .v-col .v-card { overflow: visible; min-width: 0; }
+
+    .table-responsive { overflow-x: auto; }
+    .v-card .table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .table-responsive table, .table-responsive .v-simple-table { width: 100%; min-width: 0; }
+
+    .v-simple-table td, .v-simple-table th { word-break: break-word; overflow-wrap: anywhere; white-space: normal; }
+
+    .logs-responsive, .logs-responsive .logs-item { min-width: 0; }
+
+    .v-card * { min-width: 0; }
   }
 </style>

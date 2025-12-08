@@ -24,17 +24,14 @@ router.beforeEach((to, _from, next) => {
   const requiresAuth = to.meta.requiresAuth
   const isAdmin = localStorage.getItem('is_admin') === '1'
 
-  // Protected routes require authentication
   if (requiresAuth && !token) {
     return next('/login')
   }
 
-  // Admin route protection: only allow users with admin flag
   if (to.path === '/admin' && !isAdmin) {
     return next('/')
   }
 
-  // Prevent authenticated users from visiting auth pages
   if ((to.path === '/login' || to.path === '/cadastro') && token) {
     return next('/')
   }
