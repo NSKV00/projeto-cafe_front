@@ -7,7 +7,7 @@ export default {
   },
 
   async criar(usuario_id: number) {
-    return api.post<ApiResponse<Fila>>('/fila/criar', { usuario_id })
+    return api.post<ApiResponse<Fila>>(`/fila/criar/${usuario_id}`, { usuario_id })
   },
 
   async proximo() {
