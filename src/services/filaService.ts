@@ -13,10 +13,8 @@ export default {
   async proximo() {
     try {
       const res = await api.get<ApiResponse<Fila>>('/fila/proximo')
-      // Retorna exatamente o response do axios para manter consistência
       return res
     } catch (err: any) {
-      // Não propagar erro não tratado — retornamos um objeto normalizado parecido com ResponseService
       console.error('filaService.proximo erro', err)
       return {
         data: {
