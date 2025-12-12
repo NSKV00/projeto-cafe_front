@@ -300,7 +300,7 @@
     position: relative;
     width: 95%;
     max-width: 420px;
-    background: rgba(82, 82, 82, 0.123);
+    background: rgba(0, 0, 0, 0.123);
     backdrop-filter: blur(6px);
     color: var(--text-primary);
   }
